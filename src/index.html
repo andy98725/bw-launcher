@@ -2,11 +2,30 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
-    <link rel="stylesheet" href="index.css">
+    <title>Base Wars Launcher</title>
+
+    <link rel="stylesheet" href="./content/bootstrap/5.0.0/css/bootstrap.min.css" />
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <link rel="stylesheet" href="index.css"/>
+    <script src="appManager.js"></script>
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
+      <ul class="nav">
+        <li class="nav-item">
+          <a onclick="clickPlay()" class="nav-link" >Play</a>
+        </li>
+        <li class="nav-item">
+          <a onclick="clickPatch()" class="nav-link" href="#">Patch Notes</a>
+        </li>
+        <li class="nav-item">
+          <a onclick="clickSettings()" class="nav-link" href="#">Settings</a>
+        </li>
+      </ul>
+
+    <div class="main"></div>
+
+    <div class="footer">
+	    footer!
+    </div>
   </body>
 </html>
