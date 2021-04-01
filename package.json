@@ -1,44 +1,30 @@
 {
-  "name": "bw-launcher",
-  "productName": "bw-launcher",
+  "name": "base-wars-launcher",
+  "productName": "Base Wars",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Launch Base Wars",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "make": "npm run make-linux && npm run make-mac && npm run make-win",
+    "make-linux": "electron-forge package --platform=linux",
+    "make-mac": "electron-forge package --platform=darwin",
+    "make-win": "electron-forge package --platform=win32",
+    "publish": "electron-forge publish"
   },
   "keywords": [],
   "author": "andy725",
-  "license": "MIT",
+  "license": "",
   "config": {
     "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "bw_launcher"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
+      "packagerConfig": {
+        "platform": [
+          "linux",
+          "darwin",
+          "win32"
+        ],
+        "executableName": "base-wars-launcher"
+      }
     }
   },
   "dependencies": {
@@ -49,9 +35,6 @@
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",
-    "@electron-forge/maker-deb": "^6.0.0-beta.54",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
     "electron": "11.1.1"
   }

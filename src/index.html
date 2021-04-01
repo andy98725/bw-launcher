@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Base Wars Launcher</title>
 
-    <link rel="stylesheet" href="./content/bootstrap/5.0.0/css/bootstrap.min.css" />
-    <script>window.$ = window.jQuery = require('jquery');</script>
-    <link rel="stylesheet" href="index.css"/>
-    <script src="appManager.js"></script>
-  </head>
-  <body>
-    <div class="header">
-        <a onclick="clickPlay()" href="#" id="play-btn">Play</a>
-        <a onclick="clickPatch()" href="#" id="patch-btn">Patch Notes</a>
-        <a onclick="clickSettings()" href="#" id="set-btn">Settings</a>
-    </div>
+<head>
+  <meta charset="UTF-8">
+  <title>Base Wars Launcher</title>
 
-    <div class="main"></div>
+  <link rel="stylesheet" href="./content/bootstrap/5.0.0/css/bootstrap.min.css" />
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <link rel="stylesheet" href="index.css" />
+  <script src="appManager.js"></script>
+</head>
 
-    <div class="footer">
-	    footer!
-    </div>
-  </body>
+<body>
+  <div class="header">
+    <a onclick="clickPlay()" href="#" id="play-btn">Play</a>
+    <a onclick="clickPatch()" href="#" id="patch-btn">Patch Notes</a>
+    <a onclick="clickSettings()" href="#" id="set-btn">Settings</a>
+  </div>
+
+  <div class="main"></div>
+
+  <div class="footer">
+    <button onclick="clickDownload()" id="download-btn" class="btn btn-success">Download & Play!</button>
+    <div id="loading-info">Checking Game Status...</div>
+  </div>
+</body>
+
 </html>

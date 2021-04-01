@@ -1,56 +1,100 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: #212529;
-  color: #f0f0f0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #212529;
+    color: #f0f0f0;
+    font-size: 1.2em;
 }
 
-.header{
-  position: fixed;
-  top: 0;
-  height: 10vh;
-  line-height: 10vh;
-  width: 100%;
-
-  /*display: flex;
-  justify-content: space-evenly;*/
-  display:table;
-  table-layout: fixed;
-
-  background-color: #1d1d1d;
-}
-.header a{
-  display: table-cell;
-
-  font-size: 2em; 
-  font-weight: 500;
-  color: #ddd;
-  text-decoration: none;
-  text-align: center;
-}
-.header a:hover{
-  color: #f0f0f0;
-}
-.header a.active{
-  color: #fff;
-  background-color: #212529;
+.header {
+    position: fixed;
+    top: 0;
+    height: 10vh;
+    line-height: 10vh;
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    background-color: #1d1d1d;
+    white-space: nowrap;
 }
 
-.main{
-  position: fixed;
-  top: 12vh;
-  bottom: 22vh;
-  margin-left: 5%;
-  margin-right: 4%;
-  overflow: auto;
+.header a {
+    display: table-cell;
+    font-size: min(1.8em, 5vw);
+    font-weight: 500;
+    color: #ddd;
+    text-decoration: none;
+    text-align: center;
 }
-.footer{
-  position: fixed;
-  top: 80vh;
-  bottom: 3vh;
-  left: 3%;
-  right: 3%;
 
-  font-size: 2em;
-  background-color: #414549;
-  color: #f8f9fa;
+.header a:hover {
+    color: #f0f0f0;
+}
+
+.header a.active {
+    color: white;
+    background-color: #212529;
+}
+
+.main {
+    position: fixed;
+    top: 12vh;
+    bottom: 22vh;
+    margin-left: 5%;
+    margin-right: 5%;
+    overflow: auto;
+}
+
+.main img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.footer {
+    position: fixed;
+    top: 80vh;
+    height: 17vh;
+    left: 3vw;
+    right: 3vw;
+    font-weight: 400;
+    background-color: #414549;
+    border-radius: .15rem;
+    color: #f0f0f0;
+    display: inline-block;
+}
+
+#download-btn {
+    background-color: #40b050;
+    border: none;
+    padding: 2vh 3vw;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: min(1.2em, 3vw);
+    /* Vertical center */
+    position: absolute;
+    top: 50%;
+    right: 3vw;
+    transform: translateY(-50%);
+    border-radius: .5rem;
+}
+
+#loading-info {
+    position: absolute;
+    top: 50%;
+    left: 3vw;
+    transform: translateY(-50%);
+    font-size: min(1.5em, 4vw);
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+h3 {
+    margin-left: 15vw;
 }
