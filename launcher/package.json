@@ -3,10 +3,10 @@
   "productName": "Base Wars",
   "version": "1.0.0",
   "description": "Launch Base Wars",
-  "main": "src/index.js",
+  "main": "./src/index.js",
   "scripts": {
     "start": "electron-forge start",
-    "make": "npm run make-linux && npm run make-mac && npm run make-win && ./make.sh",
+    "make": "npm run make-linux && npm run make-mac && npm run make-win",
     "make-linux": "electron-forge package --platform=linux",
     "make-mac": "",
     "make-win": "electron-forge package --platform=win32",

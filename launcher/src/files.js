@@ -2,13 +2,13 @@ const $ = require('jquery');
 const fs = require('fs');
 const path = require('path');
 
-
-localVer = path.join(__dirname, '/data/src/version.txt');
-baseWars = path.join(__dirname, '/data/src/Base_Wars.jar');
-
-autostart = path.join(__dirname, '/AUTOSTART.txt');
-// autostart = path.join(__dirname, '/data/AUTOSTART.txt');
-dev = path.join(__dirname, '/data/launcher/beta.txt');
+let localDir = __dirname.lastIndexOf('data') > 0? __dirname.substr(0, __dirname.lastIndexOf('data')) : __dirname;
+localVer = path.join(localDir, '/data/src/version.txt');
+baseWars = path.join(localDir, '/data/src/Base_Wars.jar');
+autostart = path.join(localDir, '/data/AUTOSTART.txt');
+dev = path.join(localDir, '/data/launcher/beta.txt');
+console.log(localDir);
+console.log(autostart);
 
 let localVerCache = null, autostartCache = null, devCache = null;
 

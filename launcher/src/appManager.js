@@ -54,5 +54,5 @@ function autostart() {
 }
 
 module.exports = {
-	readyToLaunch, autostart, launchGame
+	readyToLaunch, autostart
 }
