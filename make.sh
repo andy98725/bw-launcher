@@ -1,7 +1,12 @@
 #!/bin/bash
 
+# Destroy helper folder
+rm -rf ./launcher/src/data
+
 # Package electron
 npm run make --prefix ./launcher
+
+
 
 # Destination directories
 rm -rf ./builds
@@ -27,3 +32,7 @@ cp ./javas/win $winDir/java -r
 ln -s ./data/src/launcher/base-wars-launcher $linRt/Base\ Wars
 ln -s ./data/src/launcher/base-wars-launcher $macRt/Base\ Wars
 ln -s ./data/src/launcher/base-wars-launcher.exe $winRt/Base\ Wars
+
+
+# Restore dev tools
+mkdir ./launcher/src/data

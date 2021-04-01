@@ -2,17 +2,18 @@ const $ = require('jquery');
 const fs = require('fs');
 const path = require('path');
 
+
+// Set up directory locations
 let localDir = __dirname.lastIndexOf('data') > 0? __dirname.substr(0, __dirname.lastIndexOf('data')) : __dirname;
 localVer = path.join(localDir, '/data/src/version.txt');
 baseWars = path.join(localDir, '/data/src/Base_Wars.jar');
 autostart = path.join(localDir, '/data/AUTOSTART.txt');
 dev = path.join(localDir, '/data/launcher/beta.txt');
-console.log(localDir);
-console.log(autostart);
+
 
 let localVerCache = null, autostartCache = null, devCache = null;
 
-function localVer() {
+function localVersion() {
     if (localVerCache == null)
         if (!fs.existsSync(localVer))
             localVerCache = '';
@@ -60,7 +61,7 @@ function launchGame() {
 }
 
 module.exports = {
-    localVer, hasAutostart, updateAutostart, devBranch, hasGame, launchGame
+    localVersion, hasAutostart, updateAutostart, devBranch, hasGame, launchGame
 }
 
 updateAutostart(true);
