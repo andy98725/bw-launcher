@@ -1,13 +1,19 @@
-const $ = require('jquery');
-
 const { devBranch } = require('./files.js');
 
+// Load jquery early
+let $ = require('jquery');
+if (!$.get) {
+    // jquery requires a window, let's give it one
+    const { JSDOM } = require("jsdom");
+    const { window } = new JSDOM("");
+    $ = $(window);
+}
 
 const patchURL = 'https://everlastinggames.net/base-wars/patchNotes/raw';
 const versionURL = 'https://everlastinggames.net/base-wars/download/raw/version' + devBranch() ? '?branch=beta' : '';
 
 let internetConnected = true;
-function checkConnection(XMLHttpRequest, textStatus, errorThrown) {
+function connectionErr(XMLHttpRequest, textStatus, errorThrown) {
     if (XMLHttpRequest.readyState == 4) {
         // HTTP error (can be checked by XMLHttpRequest.status and XMLHttpRequest.statusText)
     }
@@ -23,36 +29,45 @@ function checkConnection(XMLHttpRequest, textStatus, errorThrown) {
 
 // Query caches
 let patchHTML = null, versionCache = null;
+console.log("HEY");
 $.ajax({
     url: patchURL, success: function (data) {
         patchHTML = data;
-    }, error: checkConnection
+        console.log("STATUS " + data);
+    }, error: checkConnection, async:false
 });
 $.ajax({
     url: versionURL, success: function (data) {
         patchHTML = data;
-    }, error: checkConnection
+    }, error: checkConnection, async:false
 });
+
 
 function getPatchHTML() {
     if (!internetConnected)
         return null;
     if (!patchHTML)
         patchHTML = $.ajax({ url: patchURL, async: false, error: checkConnection }).responseText;
+
     return patchHTML
 }
 function onlineVer() {
     if (!internetConnected)
         return '';
-    if (!versionCache)
-        versionCache = $.ajax({ url: versionURL, async: false, error: checkConnection }).responseText;
+    // if (!versionCache)
+    //     versionCache = $.ajax({ url: versionURL, async: false, error: checkConnection }).responseText;
 
     return versionCache;
 }
-function checkConnection(){
+function downloadAndLaunch() {
+    if (!internetConnected)
+        return launchGame();
+    //TODO
+}
+function checkConnection() {
     onlineVer();
     return internetConnected;
 }
 module.exports = {
-    checkConnection, getPatchHTML, onlineVer
+    checkConnection, getPatchHTML, onlineVer, downloadAndLaunch
 }
