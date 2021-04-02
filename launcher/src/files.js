@@ -9,7 +9,8 @@ baseWars = path.join(localDir, '/data/src/Base_Wars.jar');
 java = path.join(localDir, '/data/src/java.exe');
 
 autostart = path.join(localDir, '/data/AUTOSTART.txt');
-dev = path.join(localDir, '/data/launcher/beta.txt');
+dev = path.join(localDir, '/data/src/launcher/beta.txt');
+downloadPatch = path.join(localDir, '/data/src/launcher/base_wars_patch.zip');
 
 
 let localVerCache = null;
@@ -56,11 +57,18 @@ function hasGame() {
     return fs.existsSync(localVer) && fs.existsSync(baseWars) && fs.existsSync(java);
 }
 
+
+function extract() {
+    //TODO extract zip file at downloadPatch
+    console.log("EXTRACT");
+
+}
+
 function launchGame() {
     //TODO
     console.log("LAUNCH!");
 }
 
 module.exports = {
-    localVer, hasAutostart, updateAutostart, devBranch, updateDevBranch, hasGame, launchGame
+    localVer, hasAutostart, updateAutostart, devBranch, updateDevBranch, hasGame, launchGame, downloadPatch, downloadPatch, extract
 }

@@ -40,4 +40,5 @@ ln -s ./bin/javaw.exe $winDir/java.exe
 
 
 # Restore dev tools
-mkdir ./launcher/src/data
+mkdir -p ./launcher/src/data/src/launcher
+mkdir -p ./launcher/src/data/src/java

@@ -87,6 +87,17 @@ body {
     font-size: min(1.5em, 4vw);
 }
 
+#loading-bar {
+    display: hide;
+    /* Text */
+    line-height: 17vh;
+    text-align: center;
+    vertical-align: middle;
+    font-size: min(1.8em, 5vw);
+    font-weight: 500;
+    color: #ddd;
+}
+
 h1 {
     text-align: center;
 }

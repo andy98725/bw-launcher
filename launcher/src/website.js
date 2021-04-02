@@ -1,8 +1,13 @@
+const { launchGame, devBranch, downloadPatch, extract } = require('./files.js');
 
-const { launchGame } = require('./files.js');
+const request = require('request');
+const fs = require('fs');
+
+
+const downloadURL = 'https://everlastinggames.net/base-wars/download/raw' + (devBranch() ? '?branch=beta' : '');
+
 
 const querystring = require('querystring');
-
 var data = null;
 
 function loadData() {
@@ -14,6 +19,7 @@ function loadData() {
 function setData(set) {
     data = set;
 }
+
 
 function onlineVer() {
     loadData();
@@ -29,18 +35,54 @@ function patchHTML() {
 }
 
 
-function connected(){
+function connected() {
     loadData();
     return data.internet;
 }
 
 
+var loadingProgress = 0, loadingMaxProgress = 1;
 function downloadAndLaunch() {
     if (!connected())
         return launchGame();
-    //TODO download
-    console.log("DOWNLOAD!");
 
+    startDownload();
+    request(downloadURL)
+        .on('response', function (data) {
+            loadingMaxProgress = data.headers['content-length'];
+            loadingProgress = 0;
+        })
+        .on('data', function (chunk) {
+            loadingProgress += chunk.length;
+            setDownload(loadingProgress / loadingMaxProgress);
+        })
+        .pipe(fs.createWriteStream(downloadPatch))
+        .on('close', function () {
+            endDownload();
+        });
+}
+
+function startDownload() {
+    $('#loading-bar').show();
+    $('#loading-info').hide();
+
+}
+function setDownload(percent) {
+
+    //TODO
+    $('#loading-bar').text(Math.round(percent * 100) + '%');
+
+
+
+}
+function endDownload() {
+    $('#loading-bar').hide();
+    $('#loading-info').show();
+
+    $('#loading-info').text("Installing...");
+    extract();
+
+    $('#loading-info').text("Starting Game...");
     launchGame();
 }
 
