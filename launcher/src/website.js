@@ -13,7 +13,6 @@ function loadData() {
 }
 function setData(set) {
     data = set;
-    internetConnected = data.internet;
 }
 
 function onlineVer() {
@@ -30,18 +29,22 @@ function patchHTML() {
 }
 
 
-var internetConnected = true;
+function connected(){
+    loadData();
+    return data.internet;
+}
 
 
 function downloadAndLaunch() {
-    if (!internetConnected)
+    if (!connected())
         return launchGame();
     //TODO download
+    console.log("DOWNLOAD!");
 
     launchGame();
 }
 
 
 module.exports = {
-    internetConnected, patchHTML, onlineVer, downloadAndLaunch, setData
+    connected, patchHTML, onlineVer, downloadAndLaunch, setData
 }

@@ -8,7 +8,7 @@ const versionURL = 'https://everlastinggames.net/base-wars/download/raw/version'
 
 
 async function pollWebsite() {
-    let patchHTML = '', onlineVersion = '', internetConnected = true;
+    let patchHTML, onlineVersion, internetConnected = true;
     let ver = fetch(versionURL)
         .then(res => res.text())
         .then(txt => onlineVersion = txt)

@@ -24,7 +24,7 @@ function createWindow(data) {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, './index.html'), { query: { "data": JSON.stringify(data) } });
+  mainWindow.loadFile(path.join(__dirname, './render/index.html'), { query: { "data": JSON.stringify(data) } });
 
 
   // Open the DevTools.

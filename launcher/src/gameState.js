@@ -1,5 +1,5 @@
 const { hasAutostart, hasGame, localVer } = require('./files.js');
-const { onlineVer, internetConnected } = require('./website.js');
+const { onlineVer, connected } = require('./website.js');
 
 
 
@@ -14,7 +14,7 @@ function autostart() {
 	if (!hasAutostart())
 		return false;
 
-	if (!internetConnected)
+	if (!connected())
 		return hasGame();
 
 	return !needsDownload() && !needsUpdate();

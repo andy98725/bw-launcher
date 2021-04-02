@@ -58,6 +58,7 @@ function hasGame() {
 
 function launchGame() {
     //TODO
+    console.log("LAUNCH!");
 }
 
 module.exports = {

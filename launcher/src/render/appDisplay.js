@@ -1,8 +1,8 @@
 const $ = require('jquery');
 
-const { needsDownload, needsUpdate } = require('./gameState.js');
-const { hasGame, localVer, launchGame } = require('./files.js');
-const { patchHTML, onlineVer, downloadAndLaunch, internetConnected } = require('./website.js');
+const { needsDownload, needsUpdate } = require('../gameState.js');
+const { hasGame, localVer, launchGame } = require('../files.js');
+const { patchHTML, onlineVer, downloadAndLaunch, connected } = require('../website.js');
 
 
 
@@ -12,29 +12,29 @@ $(function () {
 });
 
 function updateButtonText() {
-	if (!internetConnected) {
-		$('#loading-info').text('Please Connect to the Internet.');
+	if (!connected()) {
+		$('#loading-info').text('No Internet Connection');
 		if (!hasGame())
 			$('#download-btn').hide();
 		else
 			$('#download-btn').text('Play Offline');
 	}
 	else if (needsDownload()) {
-		$('#loading-info').text('Download Ready: Ver. ' + onlineVer());
+		$('#loading-info').text('Download Ready (V. ' + onlineVer() + ')');
 		$('#download-btn').text('Download & Play');
 	}
 	else if (needsUpdate()) {
-		$('#loading-info').text('Update: Ver. ' + localVer() + ' -> ' + onlineVer());
+		$('#loading-info').text('Update Ready (V. ' + localVer() + ' -> ' + onlineVer() + ')');
 		$('#download-btn').text('Update & Play');
 	}
 	else {
-		$('#loading-info').text('Base Wars Ready. Ver. ' + localVer());
+		$('#loading-info').text('Base Wars Ready');
 		$('#download-btn').text('Play');
 	}
 }
 
 function clickDownload() {
-	if (!internetConnected) {
+	if (!connected()) {
 		if (hasGame())
 			launchGame();
 	}
