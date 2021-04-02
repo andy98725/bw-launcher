@@ -1,73 +1,47 @@
-const { devBranch } = require('./files.js');
 
-// Load jquery early
-let $ = require('jquery');
-if (!$.get) {
-    // jquery requires a window, let's give it one
-    const { JSDOM } = require("jsdom");
-    const { window } = new JSDOM("");
-    $ = $(window);
-}
+const { launchGame } = require('./files.js');
 
-const patchURL = 'https://everlastinggames.net/base-wars/patchNotes/raw';
-const versionURL = 'https://everlastinggames.net/base-wars/download/raw/version' + devBranch() ? '?branch=beta' : '';
+const querystring = require('querystring');
 
-let internetConnected = true;
-function connectionErr(XMLHttpRequest, textStatus, errorThrown) {
-    if (XMLHttpRequest.readyState == 4) {
-        // HTTP error (can be checked by XMLHttpRequest.status and XMLHttpRequest.statusText)
-    }
-    else if (XMLHttpRequest.readyState == 0) {
-        // Network error (i.e. connection refused, access denied due to CORS, etc.)
-        internetConnected = false;
-    }
-    else {
-        // something weird is happening
+var data = null;
+
+function loadData() {
+    if (data == null) {
+        let query = querystring.parse(global.location.search);
+        setData(JSON.parse(query['?data']))
     }
 }
-
-
-// Query caches
-let patchHTML = null, versionCache = null;
-console.log("HEY");
-$.ajax({
-    url: patchURL, success: function (data) {
-        patchHTML = data;
-        console.log("STATUS " + data);
-    }, error: checkConnection, async:false
-});
-$.ajax({
-    url: versionURL, success: function (data) {
-        patchHTML = data;
-    }, error: checkConnection, async:false
-});
-
-
-function getPatchHTML() {
-    if (!internetConnected)
-        return null;
-    if (!patchHTML)
-        patchHTML = $.ajax({ url: patchURL, async: false, error: checkConnection }).responseText;
-
-    return patchHTML
+function setData(set) {
+    data = set;
+    internetConnected = data.internet;
 }
+
 function onlineVer() {
-    if (!internetConnected)
-        return '';
-    // if (!versionCache)
-    //     versionCache = $.ajax({ url: versionURL, async: false, error: checkConnection }).responseText;
-
-    return versionCache;
+    loadData();
+    if ('ver' in data)
+        return data.ver;
+    else return '';
 }
+function patchHTML() {
+    loadData();
+    if ('patchNotes' in data)
+        return data.patchNotes;
+    else return "Patch Notes not found. Please check your internet connection.";
+}
+
+
+var internetConnected = true;
+
+
 function downloadAndLaunch() {
     if (!internetConnected)
         return launchGame();
-    //TODO
+    //TODO download
+
+    launchGame();
 }
-function checkConnection() {
-    onlineVer();
-    return internetConnected;
-}
+
+
 module.exports = {
-    checkConnection, getPatchHTML, onlineVer, downloadAndLaunch
+    internetConnected, patchHTML, onlineVer, downloadAndLaunch, setData
 }

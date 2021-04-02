@@ -10,11 +10,11 @@ npm run make --prefix ./launcher
 
 # Destination directories
 rm -rf ./builds
-linRt=./builds/Base-Wars-Linux
+linRt=./builds/linux
 linDir=$linRt/data/src
-macRt=./builds/Base-Wars-Mac
+macRt=./builds/mac
 macDir=$macRt/data/src
-winRt=./builds/Base-Wars-Win
+winRt=./builds/win
 winDir=$winRt/data/src
 mkdir -p $linDir $macDir $winDir
 
@@ -28,10 +28,15 @@ cp ./javas/linux $linDir/java -r
 cp ./javas/mac $macDir/java -r
 cp ./javas/win $winDir/java -r
 
-# Make shortcuts
+# Make launcher shortcuts
 ln -s ./data/src/launcher/base-wars-launcher $linRt/Base\ Wars
 ln -s ./data/src/launcher/base-wars-launcher $macRt/Base\ Wars
 ln -s ./data/src/launcher/base-wars-launcher.exe $winRt/Base\ Wars
+
+# Make java shortcuts
+ln -s ./bin/java $linDir/java.exe
+ln -s ./bin/java $macDir/java.exe
+ln -s ./bin/javaw.exe $winDir/java.exe
 
 
 # Restore dev tools

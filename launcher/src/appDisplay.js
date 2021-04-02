@@ -1,8 +1,8 @@
 const $ = require('jquery');
 
-const {needsDownload, needsUpdate} = require('./gameState.js');
+const { needsDownload, needsUpdate } = require('./gameState.js');
 const { hasGame, localVer, launchGame } = require('./files.js');
-const { getPatchHTML, checkConnection, onlineVer, downloadAndLaunch } = require('./website.js');
+const { patchHTML, onlineVer, downloadAndLaunch, internetConnected } = require('./website.js');
 
 
 
@@ -12,7 +12,7 @@ $(function () {
 });
 
 function updateButtonText() {
-	if (!checkConnection()) {
+	if (!internetConnected) {
 		$('#loading-info').text('Please Connect to the Internet.');
 		if (!hasGame())
 			$('#download-btn').hide();
@@ -32,8 +32,9 @@ function updateButtonText() {
 		$('#download-btn').text('Play');
 	}
 }
+
 function clickDownload() {
-	if (!checkConnection()) {
+	if (!internetConnected) {
 		if (hasGame())
 			launchGame();
 	}
@@ -60,11 +61,7 @@ function clickSettings() {
 }
 
 function clickPatch() {
-	let patchHTML = getPatchHTML();
-	if (patchHTML)
-		$(".main").html(patchHTML);
-	else
-		$(".main").text("Patch Notes not found. Please check your internet connection.");
+	$(".main").html(patchHTML());
 
 	$("#play-btn").removeClass("active");
 	$("#set-btn").removeClass("active");
