@@ -1,4 +1,6 @@
 const { app, BrowserWindow } = require('electron');
+const { ipcMain } = require('electron')
+
 const path = require('path');
 
 const { setData } = require('./website.js');
@@ -27,8 +29,8 @@ function createWindow(data) {
   mainWindow.loadFile(path.join(__dirname, './render/index.html'), { query: { "data": JSON.stringify(data) } });
 
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // // Open the DevTools.
+  // mainWindow.webContents.openDevTools();
 };
 
 let infoCache = {};
@@ -49,6 +51,9 @@ function start() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', start);
 
+ipcMain.on('game-launch', (evt, arg) => {
+  app.quit()
+})
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

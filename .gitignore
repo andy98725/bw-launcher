@@ -91,3 +91,4 @@ out/
 # Custom build
 builds/
 javas/
+launcher/src/data/*

@@ -1,26 +1,29 @@
 const fs = require('fs');
 const path = require('path');
-
+const admZip = require('adm-zip');
+const { exec } = require('child_process');
+const { ipcRenderer } = require('electron');
 
 // Set up directory locations
 let localDir = __dirname.lastIndexOf('data') > 0 ? __dirname.substr(0, __dirname.lastIndexOf('data')) : __dirname;
-localVer = path.join(localDir, '/data/src/version.txt');
+version = path.join(localDir, '/data/src/version.txt');
 baseWars = path.join(localDir, '/data/src/Base_Wars.jar');
 java = path.join(localDir, '/data/src/java.exe');
 
 autostart = path.join(localDir, '/data/AUTOSTART.txt');
 dev = path.join(localDir, '/data/src/launcher/beta.txt');
 downloadPatch = path.join(localDir, '/data/src/launcher/base_wars_patch.zip');
+output = path.join(localDir, '/data/src/launcher/output.txt');
 
 
 let localVerCache = null;
 
 function localVer() {
     if (localVerCache == null)
-        if (!fs.existsSync(localVer))
+        if (!fs.existsSync(version))
             localVerCache = '';
         else
-            localVerCache = fs.readFileSync(localVer);
+            localVerCache = fs.readFileSync(version);
 
     return localVerCache;
 }
@@ -54,19 +57,20 @@ function updateDevBranch(set) {
 }
 
 function hasGame() {
-    return fs.existsSync(localVer) && fs.existsSync(baseWars) && fs.existsSync(java);
+    return fs.existsSync(version) && fs.existsSync(baseWars) && fs.existsSync(java);
 }
 
 
 function extract() {
-    //TODO extract zip file at downloadPatch
-    console.log("EXTRACT");
-
+    let zipFile = new admZip(downloadPatch);
+    zipFile.extractAllTo(localDir, true);
+    fs.unlinkSync(downloadPatch);
 }
 
 function launchGame() {
-    //TODO
-    console.log("LAUNCH!");
+    exec(java + ' -jar -Xmx2G -Xms1G ' + baseWars + ' > ' + output + ' 2>&1', { cwd: localDir });
+
+    ipcRenderer.send('game-launch');
 }
 
 module.exports = {

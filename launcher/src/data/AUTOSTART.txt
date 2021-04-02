@@ -1,2 +1,0 @@
-This file makes the Launcher start Base Wars immediately if there's no update to download.
-If you want to see the Launcher, you should delete this file.
