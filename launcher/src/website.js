@@ -41,7 +41,6 @@ function connected() {
 }
 
 
-var loadingProgress = 0, loadingMaxProgress = 1;
 function downloadAndLaunch() {
     if (!connected())
         return launchGame();
@@ -49,12 +48,10 @@ function downloadAndLaunch() {
     startDownload();
     request(downloadURL)
         .on('response', function (data) {
-            loadingMaxProgress = data.headers['content-length'];
-            loadingProgress = 0;
+            startDownload(data.headers['content-length']);
         })
         .on('data', function (chunk) {
-            loadingProgress += chunk.length;
-            setDownload(loadingProgress / loadingMaxProgress);
+            updateDownload(chunk.length);
         })
         .pipe(fs.createWriteStream(downloadPatch))
         .on('close', function () {
@@ -62,27 +59,33 @@ function downloadAndLaunch() {
         });
 }
 
-function startDownload() {
-    $('#loading-bar').show();
+var loadingProgress = 0, loadingMaxProgress = 1;
+function startDownload(maxAmt) {
+    loadingMaxProgress = maxAmt;
+    loadingProgress = 0;
+    $('#loading-area').show();
     $('#loading-info').hide();
 
 }
-function setDownload(percent) {
+function updateDownload(amt) {
+    loadingProgress += amt;
+    let percent = Math.round(loadingProgress / loadingMaxProgress * 100) + '%';
 
-    //TODO
-    $('#loading-bar').text(Math.round(percent * 100) + '%');
+    $('#loading-text').text(percent);
+    $('#loading-bar').width(percent);
 
 
 
 }
 function endDownload() {
-    $('#loading-bar').hide();
+    $('#loading-area').hide();
     $('#loading-info').show();
-
     $('#loading-info').text("Installing...");
+
     extract();
 
     $('#loading-info').text("Starting Game...");
+
     launchGame();
 }
 

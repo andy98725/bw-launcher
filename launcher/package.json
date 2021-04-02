@@ -18,7 +18,8 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "executableName": "base-wars-launcher"
+        "executableName": "base-wars-launcher",
+        "icon": "./src/render/Icon.icns"
       }
     }
   },

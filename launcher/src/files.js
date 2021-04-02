@@ -2,18 +2,20 @@ const fs = require('fs');
 const path = require('path');
 const admZip = require('adm-zip');
 const { exec } = require('child_process');
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, shell } = require('electron');
 
 // Set up directory locations
 let localDir = __dirname.lastIndexOf('data') > 0 ? __dirname.substr(0, __dirname.lastIndexOf('data')) : __dirname;
 version = path.join(localDir, '/data/src/version.txt');
 baseWars = path.join(localDir, '/data/src/Base_Wars.jar');
-java = path.join(localDir, '/data/src/java.exe');
+java = path.join(localDir, '/data/src/java/java.exe');
 
 autostart = path.join(localDir, '/data/AUTOSTART.txt');
 dev = path.join(localDir, '/data/src/launcher/beta.txt');
 downloadPatch = path.join(localDir, '/data/src/launcher/base_wars_patch.zip');
 output = path.join(localDir, '/data/src/launcher/output.txt');
+winShortcut = path.join(localDir, 'Base Wars.lnk');
+winIcon = path.join(localDir, '/data/src/launcher/resources/app/src/render/Icon.ico')
 
 
 let localVerCache = null;
@@ -61,6 +63,15 @@ function hasGame() {
 }
 
 
+function updateShortcutIcon() {
+    if (!fs.existsSync(winShortcut))
+        return;
+
+    let shortcut = shell.readShortcutLink(winShortcut);
+    shortcut.icon = winIcon;
+    shell.writeShortcutLink(winShortcut, shortcut);
+}
+
 function extract() {
     let zipFile = new admZip(downloadPatch);
     zipFile.extractAllTo(localDir, true);
@@ -68,11 +79,12 @@ function extract() {
 }
 
 function launchGame() {
-    exec(java + ' -jar -Xmx2G -Xms1G ' + baseWars + ' > ' + output + ' 2>&1', { cwd: localDir });
+    // exec(java + ' -jar -Xmx2G -Xms1G ' + baseWars + ' > ' + output + ' 2>&1', { cwd: localDir });
+    // ipcRenderer.send('game-launch');
 
-    ipcRenderer.send('game-launch');
+    console.log(exec('"' + java + '" -jar -Xmx2G -Xms1G "' + baseWars + '" > "' + output + '" 2>&1', { cwd: localDir }));
 }
 
 module.exports = {
-    localVer, hasAutostart, updateAutostart, devBranch, updateDevBranch, hasGame, launchGame, downloadPatch, downloadPatch, extract
+    localVer, hasAutostart, updateAutostart, devBranch, updateDevBranch, hasGame, launchGame, updateShortcutIcon, downloadPatch, downloadPatch, extract
 }

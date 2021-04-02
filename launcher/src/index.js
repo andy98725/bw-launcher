@@ -5,7 +5,7 @@ const path = require('path');
 
 const { setData } = require('./website.js');
 const { autostart } = require('./gameState.js');
-const { launchGame } = require('./files.js');
+const { launchGame, updateShortcutIcon } = require('./files.js');
 const { pollWebsite } = require('./preloader.js');
 
 
@@ -14,12 +14,14 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
   app.quit();
 }
 
+updateShortcutIcon();
 
 function createWindow(data) {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    icon: path.join(__dirname,'./render/Icon.png'),
     webPreferences: {
       nodeIntegration: true
     }

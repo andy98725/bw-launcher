@@ -29,15 +29,14 @@ cp ./javas/mac $macDir/java -r
 cp ./javas/win $winDir/java -r
 
 # Make java shortcuts
-ln -s ./java/bin/java $linDir/java.exe
-ln -s ./java/bin/java $macDir/java.exe
-ln -s ./java/bin/javaw.exe $winDir/java.exe
+ln -s ./bin/java $linDir/java/java.exe
+ln -s ./bin/java $macDir/java/java.exe
 
 echo 'Making Shortcuts...'
 # Make launcher shortcuts
 ln -s ./data/src/launcher/base-wars-launcher $linRt/Base\ Wars
 ln -s ./data/src/launcher/base-wars-launcher $macRt/Base\ Wars
-ln -s ./data/src/launcher/base-wars-launcher.exe $winRt/Base\ Wars
+cp ./javas/shortcutWin/Base\ Wars.lnk $winRt/Base\ Wars.lnk
 
 
 echo 'Zipping...'
@@ -57,7 +56,7 @@ cd - > /dev/null
 devDir=./launcher/src/data/src
 mkdir -p ./launcher/src/data/src/launcher
 cp ./javas/linux $devDir/java -r
-ln -s ./java/bin/java $devDir/java.exe #TODO this one too
+ln -s ./java/bin/java $devDir/java.exe
 
 
 echo 'Done.'
