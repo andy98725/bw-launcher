@@ -7,9 +7,15 @@ const { ipcRenderer, shell } = require('electron');
 
 // Set up directory locations
 let localDir = __dirname.lastIndexOf('data') > 0 ? __dirname.substr(0, __dirname.lastIndexOf('data')) : __dirname;
+
 version = path.join(localDir, '/data/src/version.txt');
 baseWars = path.join(localDir, '/data/src/Base_Wars.jar');
-java = path.join(localDir, '/data/src/java/java.exe');
+
+if (process.platform === "win32")
+java = path.join(localDir, '/data/src/java/bin/javaw.exe');
+else
+java = path.join(localDir, '/data/src/java/bin/java');
+
 
 autostart = path.join(localDir, '/data/AUTOSTART.txt');
 dev = path.join(localDir, '/data/src/launcher/beta.txt');
@@ -102,10 +108,13 @@ function extract() {
 }
 
 function launchGame() {
-    exec('"' + java + '" -jar -Xmx2G -Xms1G "' + baseWars + '" > "' + output + '" 2>&1', { cwd: localDir })
-    ipcRenderer.send('game-launch');
+    let cmd = '"' + java + '" -jar -Xmx2G -Xms1G "' + baseWars + '" > "' + output + '" 2>&1';
+    // exec(cmd, { cwd: localDir })
+    // ipcRenderer.send('game-launch');
 
-    // console.log(exec('"' + java + '" -jar -Xmx2G -Xms1G "' + baseWars + '" > "' + output + '" 2>&1', { cwd: localDir }));
+    console.log("Executing:");
+    console.log(cmd);
+    console.log(exec(cmd, { cwd: localDir }));
 }
 
 module.exports = {

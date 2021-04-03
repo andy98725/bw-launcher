@@ -28,10 +28,6 @@ cp ./javas/linux $linDir/java -r
 cp ./javas/mac $macDir/java -r
 cp ./javas/win $winDir/java -r
 
-# Make java shortcuts
-ln -s ./bin/java $linDir/java/java.exe
-ln -s ./bin/java $macDir/java/java.exe
-
 echo 'Making Shortcuts...'
 # Make launcher shortcuts
 ln -s ./data/src/launcher/base-wars-launcher $linRt/Base\ Wars.lnk
@@ -40,16 +36,23 @@ cp ./javas/shortcutWin/Base\ Wars.lnk $winRt/Base\ Wars.lnk
 
 
 echo 'Zipping...'
+linZ=zips/lin
+macZ=zips/mac
+winZ=zips/win
+mkdir -p ./$linZ ./$macZ ./$winZ
 
 cd $linRt
-zip -qr --symlinks Base\ Wars.zip ./*
+zip -qr --symlinks ../../$linZ/Base\ Wars.zip ./*
 cd - > /dev/null
+echo 'Linux Done.'
 cd $macRt
-zip -qr --symlinks Base\ Wars.zip ./*
+zip -qr --symlinks ../../$macZ/Base\ Wars.zip ./*
 cd - > /dev/null
+echo 'Mac Done.'
 cd $winRt
-zip -qr --symlinks Base\ Wars.zip ./*
+zip -qr --symlinks ../../$winZ/Base\ Wars.zip ./*
 cd - > /dev/null
+echo 'Windows Done.'
 
 
 # Restore dev tools

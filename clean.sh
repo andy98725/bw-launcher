@@ -1,1 +1,1 @@
-rm -rf launcher/out builds
+rm -rf ./launcher/out ./builds

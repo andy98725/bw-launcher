@@ -90,5 +90,6 @@ out/
 
 # Custom build
 builds/
+zips/
 javas/
 launcher/src/data/*
