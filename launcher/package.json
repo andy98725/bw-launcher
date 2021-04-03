@@ -8,7 +8,7 @@
     "start": "electron-forge start",
     "make": "npm run make-linux && npm run make-mac && npm run make-win",
     "make-linux": "electron-forge package --platform=linux",
-    "make-mac": "",
+    "make-mac": "electron-forge package --platform=darwin",
     "make-win": "electron-forge package --platform=win32",
     "publish": "electron-forge publish"
   },
@@ -24,15 +24,16 @@
     }
   },
   "dependencies": {
+    "adm-zip": "^0.5.5",
     "boostrap": "^2.0.0",
+    "child_process": "^1.0.2",
     "electron-squirrel-startup": "^1.0.0",
     "fetch": "^1.1.0",
     "jquery": "^3.6.0",
-    "popper.js": "^1.16.1",
-    "adm-zip": "^0.5.5",
-    "child_process": "^1.0.2",
     "node-fetch": "^2.6.1",
-    "request": "^2.88.2"
+    "popper.js": "^1.16.1",
+    "request": "^2.88.2",
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",

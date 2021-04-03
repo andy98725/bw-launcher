@@ -1,13 +1,15 @@
-const { launchGame, devBranch, downloadPatch, extract } = require('./files.js');
+const { launchGame, devBranch, downloadPatch, extract, deleteGame } = require('./files.js');
+const {versionURL } = require('./preloader.js');
 
 const request = require('request');
 const fs = require('fs');
-
-
-const downloadURL = 'https://everlastinggames.net/base-wars/download/raw' + (devBranch() ? '?branch=beta' : '');
-
-
 const querystring = require('querystring');
+const fetch  = require('node-fetch');
+
+
+const downloadURL = 'https://everlastinggames.net/base-wars/download/raw';
+
+
 var data = null;
 
 function loadData() {
@@ -18,6 +20,13 @@ function loadData() {
 }
 function setData(set) {
     data = set;
+}
+
+async function updateVer(){
+    return await fetch(versionURL + (devBranch() ? '?branch=beta' : ''))
+    .then(res => res.text())
+    .then(ver => data.ver = ver);
+    //TODO
 }
 
 
@@ -40,13 +49,18 @@ function connected() {
     return data.internet;
 }
 
+function resetAndLaunch(){
+    deleteGame();
+    downloadAndLaunch();
+}
+
 
 function downloadAndLaunch() {
     if (!connected())
         return launchGame();
 
     startDownload();
-    request(downloadURL)
+    request(downloadURL + (devBranch() ? '?branch=beta' : ''))
         .on('response', function (data) {
             startDownload(data.headers['content-length']);
         })
@@ -91,5 +105,5 @@ function endDownload() {
 
 
 module.exports = {
-    connected, patchHTML, onlineVer, downloadAndLaunch, setData
+    connected, patchHTML, onlineVer, updateVer, downloadAndLaunch, resetAndLaunch, setData
 }

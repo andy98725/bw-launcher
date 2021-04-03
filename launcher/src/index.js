@@ -21,7 +21,7 @@ function createWindow(data) {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    icon: path.join(__dirname,'./render/Icon.png'),
+    icon: path.join(__dirname, './render/Icon.png'),
     webPreferences: {
       nodeIntegration: true
     }
@@ -34,6 +34,9 @@ function createWindow(data) {
   // // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 };
+ipcMain.on('game-launch', (evt, arg) => {
+  app.exit()
+})
 
 let infoCache = {};
 function start() {
@@ -53,9 +56,6 @@ function start() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', start);
 
-ipcMain.on('game-launch', (evt, arg) => {
-  app.quit()
-})
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

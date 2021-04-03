@@ -1,7 +1,12 @@
-const { hasAutostart, hasGame, localVer } = require('./files.js');
+const { hasAutostart, hasGame, localVer, devBranch } = require('./files.js');
 const { onlineVer, connected } = require('./website.js');
 
 
+var originalBranch = devBranch();
+
+function needsReset() {
+	return hasGame() && devBranch() != originalBranch;
+}
 
 function needsDownload() {
 	return !hasGame();
@@ -22,5 +27,5 @@ function autostart() {
 
 
 module.exports = {
-	needsDownload, needsUpdate, autostart
+	needsReset, needsDownload, needsUpdate, autostart
 }

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const rimraf = require('rimraf');
 const path = require('path');
 const admZip = require('adm-zip');
 const { exec } = require('child_process');
@@ -17,6 +18,10 @@ output = path.join(localDir, '/data/src/launcher/output.txt');
 winShortcut = path.join(localDir, 'Base Wars.lnk');
 winIcon = path.join(localDir, '/data/src/launcher/resources/app/src/render/Icon.ico')
 
+deleteFiles = [path.join(localDir, '/data/maps'), path.join(localDir, '/data/saves'),
+path.join(localDir, '/data/replays'), path.join(localDir, '/data/textures'),
+path.join(localDir, '/data/settings'), version, baseWars];
+
 
 let localVerCache = null;
 
@@ -29,47 +34,65 @@ function localVer() {
 
     return localVerCache;
 }
-
+var auto = null;
 function hasAutostart() {
-    // return fs.existsSync(autostart); TODO add autostart toggle
-    return false;
+    if (auto === null)
+        auto = fs.existsSync(autostart);
+    return auto;
 }
 
 let autostartDescription = "This file makes the Launcher start Base Wars immediately if there's no update to download.\n"
     + "If you want to see the Launcher, you should delete this file.";
 function updateAutostart(set) {
-    if (set)
-        fs.writeFileSync(autostart, autostartDescription);
-    else
-        fs.rmSync(autostart);
+    if (auto != set) {
+        auto = set;
+        if (set)
+            fs.writeFileSync(autostart, autostartDescription);
+        else
+            fs.unlinkSync(autostart);
+    }
 }
 
+var isDev = null;
 function devBranch() {
-    // return fs.existsSync(dev); TODO add dev branch toggle
-    return true;
+    if (isDev === null)
+        isDev = fs.existsSync(dev);
+    return isDev;
 }
 
 let devDescription = "This file tells the Launcher to load the Beta branch.\n"
     + "If you want to change this, please do it from inside the Launcher!";
 function updateDevBranch(set) {
-    if (set)
-        fs.writeFileSync(dev, autostartDescription);
-    else
-        fs.rmSync(dev);
+    if (isDev != set) {
+        isDev = set;
+        if (set)
+            fs.writeFileSync(dev, devDescription);
+        else
+            fs.unlinkSync(dev);
+    }
 }
 
+var has = null;
 function hasGame() {
-    return fs.existsSync(version) && fs.existsSync(baseWars) && fs.existsSync(java);
+    if (has === null)
+        has = fs.existsSync(version) && fs.existsSync(baseWars) && fs.existsSync(java);
+    return has;
 }
 
 
 function updateShortcutIcon() {
-    if (!fs.existsSync(winShortcut))
+    if (process.platform !== "win32")
         return;
 
     let shortcut = shell.readShortcutLink(winShortcut);
     shortcut.icon = winIcon;
     shell.writeShortcutLink(winShortcut, shortcut);
+}
+
+function deleteGame() {
+    deleteFiles.forEach(function (file) {
+        rimraf.sync(file);
+    });
 }
 
 function extract() {
@@ -79,12 +102,12 @@ function extract() {
 }
 
 function launchGame() {
-    // exec(java + ' -jar -Xmx2G -Xms1G ' + baseWars + ' > ' + output + ' 2>&1', { cwd: localDir });
-    // ipcRenderer.send('game-launch');
+    exec('"' + java + '" -jar -Xmx2G -Xms1G "' + baseWars + '" > "' + output + '" 2>&1', { cwd: localDir })
+    ipcRenderer.send('game-launch');
 
-    console.log(exec('"' + java + '" -jar -Xmx2G -Xms1G "' + baseWars + '" > "' + output + '" 2>&1', { cwd: localDir }));
+    // console.log(exec('"' + java + '" -jar -Xmx2G -Xms1G "' + baseWars + '" > "' + output + '" 2>&1', { cwd: localDir }));
 }
 
 module.exports = {
-    localVer, hasAutostart, updateAutostart, devBranch, updateDevBranch, hasGame, launchGame, updateShortcutIcon, downloadPatch, downloadPatch, extract
+    localVer, hasAutostart, updateAutostart, devBranch, updateDevBranch, hasGame, launchGame, updateShortcutIcon, deleteGame, downloadPatch, extract
 }

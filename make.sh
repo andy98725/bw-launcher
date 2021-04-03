@@ -20,7 +20,7 @@ mkdir -p $linDir $macDir $winDir
 
 # Make launcher directory
 cp ./launcher/out/Base\ Wars-linux-x64 $linDir/launcher -r
-cp ./launcher/out/Base\ Wars-linux-x64 $macDir/launcher -r
+cp ./launcher/out/Base\ Wars-darwin-x64 $macDir/launcher -r
 cp ./launcher/out/Base\ Wars-win32-x64 $winDir/launcher -r
 
 echo 'Importing Java...'
@@ -34,8 +34,8 @@ ln -s ./bin/java $macDir/java/java.exe
 
 echo 'Making Shortcuts...'
 # Make launcher shortcuts
-ln -s ./data/src/launcher/base-wars-launcher $linRt/Base\ Wars
-ln -s ./data/src/launcher/base-wars-launcher $macRt/Base\ Wars
+ln -s ./data/src/launcher/base-wars-launcher $linRt/Base\ Wars.lnk
+ln -s ./data/src/launcher/Base\ Wars.app $macRt/Base\ Wars.lnk
 cp ./javas/shortcutWin/Base\ Wars.lnk $winRt/Base\ Wars.lnk
 
 
