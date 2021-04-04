@@ -35,25 +35,27 @@ ln -s ./data/src/launcher/Base\ Wars.app $macRt/Base\ Wars.lnk
 cp ./javas/shortcutWin/Base\ Wars.lnk $winRt/Base\ Wars.lnk
 
 
-echo 'Zipping...'
-linZ=zips/lin
-macZ=zips/mac
-winZ=zips/win
-mkdir -p ./$linZ ./$macZ ./$winZ
-
-cd $linRt
-zip -qr --symlinks ../../$linZ/Base\ Wars.zip ./*
-cd - > /dev/null
-echo 'Linux Done.'
-cd $macRt
-zip -qr --symlinks ../../$macZ/Base\ Wars.zip ./*
-cd - > /dev/null
-echo 'Mac Done.'
-cd $winRt
-zip -qr --symlinks ../../$winZ/Base\ Wars.zip ./*
-cd - > /dev/null
-echo 'Windows Done.'
-
+if [[ $1 != '--nozip' ]];
+then
+	echo 'Zipping...'
+	linZ=zips/lin
+	macZ=zips/mac
+	winZ=zips/win
+	mkdir -p ./$linZ ./$macZ ./$winZ
+	
+	cd $linRt
+	zip -qr --symlinks ../../$linZ/Base\ Wars.zip ./*
+	cd - > /dev/null
+	echo 'Linux Done.'
+	cd $macRt
+	zip -qr --symlinks ../../$macZ/Base\ Wars.zip ./*
+	cd - > /dev/null
+	echo 'Mac Done.'
+	cd $winRt
+	zip -qr --symlinks ../../$winZ/Base\ Wars.zip ./*
+	cd - > /dev/null
+	echo 'Windows Done.'
+fi
 
 # Restore dev tools
 devDir=./launcher/src/data/src

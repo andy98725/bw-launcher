@@ -2,7 +2,7 @@ const fs = require('fs');
 const rimraf = require('rimraf');
 const path = require('path');
 const admZip = require('adm-zip');
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 const { ipcRenderer, shell } = require('electron');
 
 // Set up directory locations
@@ -12,9 +12,9 @@ version = path.join(localDir, '/data/src/version.txt');
 baseWars = path.join(localDir, '/data/src/Base_Wars.jar');
 
 if (process.platform === "win32")
-java = path.join(localDir, '/data/src/java/bin/javaw.exe');
+    java = path.join(localDir, '/data/src/java/bin/javaw.exe');
 else
-java = path.join(localDir, '/data/src/java/bin/java');
+    java = path.join(localDir, '/data/src/java/bin/java');
 
 
 autostart = path.join(localDir, '/data/AUTOSTART.txt');
@@ -108,13 +108,27 @@ function extract() {
 }
 
 function launchGame() {
-    let cmd = '"' + java + '" -jar -Xmx2G -Xms1G "' + baseWars + '" > "' + output + '" 2>&1';
+    // let cmd = '"' + java + '" -jar -Xmx2G -Xms1G "' + baseWars + '" > "' + output + '" 2>&1';
     // exec(cmd, { cwd: localDir })
-    // ipcRenderer.send('game-launch');
+    let args = ['-jar', '-Xmx2G', '-Xms1G', baseWars, '> "' + output + '"', '2>&1'];
+    let sp = spawn(java, args, { cwd: localDir, detached: true });
+    // sp.stdout.on('data', (data) => {
+    //     console.log(`Out: ${data}`);
+    // });
 
-    console.log("Executing:");
-    console.log(cmd);
-    console.log(exec(cmd, { cwd: localDir }));
+    // sp.stderr.on('data', (data) => {
+    //     console.error(`Err: ${data}`);
+    // });
+
+    // sp.on('close', (code) => {
+    //     console.log(`Base Wars exited with code ${code}`);
+    // });
+    ipcRenderer.send('game-launch');
+
+    // console.log("Executing:");
+    // console.log(cmd);
+    // console.log(exec(cmd, { cwd: localDir }));
+
 }
 
 module.exports = {

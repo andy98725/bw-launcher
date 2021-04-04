@@ -1,10 +1,10 @@
 const { launchGame, devBranch, downloadPatch, extract, deleteGame } = require('./files.js');
-const {versionURL } = require('./preloader.js');
+const { versionURL } = require('./preloader.js');
 
 const request = require('request');
 const fs = require('fs');
 const querystring = require('querystring');
-const fetch  = require('node-fetch');
+const fetch = require('node-fetch');
 
 
 const downloadURL = 'https://everlastinggames.net/base-wars/download/raw';
@@ -22,10 +22,10 @@ function setData(set) {
     data = set;
 }
 
-async function updateVer(){
+async function updateVer() {
     return await fetch(versionURL + (devBranch() ? '?branch=beta' : ''))
-    .then(res => res.text())
-    .then(ver => data.ver = ver);
+        .then(res => res.text())
+        .then(ver => data.ver = ver);
     //TODO
 }
 
@@ -49,7 +49,7 @@ function connected() {
     return data.internet;
 }
 
-function resetAndLaunch(){
+function resetAndLaunch() {
     deleteGame();
     downloadAndLaunch();
 }
@@ -79,14 +79,15 @@ function startDownload(maxAmt) {
     loadingProgress = 0;
     $('#loading-area').show();
     $('#loading-info').hide();
+    $('#loading-text').text("Connecting...");
 
 }
 function updateDownload(amt) {
     loadingProgress += amt;
-    let percent = Math.round(loadingProgress / loadingMaxProgress * 100) + '%';
+    let percent = loadingProgress / loadingMaxProgress * 100;
 
-    $('#loading-text').text(percent);
-    $('#loading-bar').width(percent);
+    $('#loading-text').text(Math.round(percent) + '%');
+    $('#loading-bar').width(percent + '%');
 
 
 
