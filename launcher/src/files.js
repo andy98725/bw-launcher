@@ -123,7 +123,8 @@ function launchGame() {
     // sp.on('close', (code) => {
     //     console.log(`Base Wars exited with code ${code}`);
     // });
-    ipcRenderer.send('game-launch');
+    if (ipcRenderer)
+        ipcRenderer.send('game-launch');
 
     // console.log("Executing:");
     // console.log(cmd);

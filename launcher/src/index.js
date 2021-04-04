@@ -46,8 +46,10 @@ function start() {
     infoCache = onlineInfo;
     setData(onlineInfo);
 
-    if (autostart())
+    if (autostart()){
       launchGame();
+      app.exit();
+    }
     else
       createWindow(onlineInfo);
   });
