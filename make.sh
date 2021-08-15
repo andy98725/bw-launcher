@@ -37,7 +37,7 @@ echo 'Making Shortcuts...'
 # Make launcher shortcuts
 ln -s ./data/launcher/base-wars-launcher "$linRt/Base Wars.lnk"
 ln -s ./data/launcher/Base\ Wars.app "$macRt/Base Wars.lnk"
-cp ./javas/shortcutWin/Base\ Wars.lnk "$winRt/Base Wars.lnk"
+cp ./winShortcut/Base\ Wars.lnk "$winRt/Base Wars.lnk"
 
 
 if [[ $1 != '--nozip' ]];
