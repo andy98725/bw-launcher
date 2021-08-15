@@ -12,21 +12,20 @@ version = path.join(localDir, '/data/src/version.txt');
 baseWars = path.join(localDir, '/data/src/Base_Wars.jar');
 
 if (process.platform === "win32")
-    java = path.join(localDir, '/data/src/java/bin/javaw.exe');
+    java = path.join(localDir, '/data/launcher/java/bin/javaw.exe');
 else
-    java = path.join(localDir, '/data/src/java/bin/java');
+    java = path.join(localDir, '/data/launcher/java/bin/java');
 
 
 autostart = path.join(localDir, '/data/AUTOSTART.txt');
-dev = path.join(localDir, '/data/src/launcher/beta.txt');
-downloadPatch = path.join(localDir, '/data/src/launcher/base_wars_patch.zip');
-output = path.join(localDir, '/data/src/launcher/output.txt');
+dev = path.join(localDir, '/data/launcher/beta.txt');
+downloadPatch = path.join(localDir, '/data/launcher/base_wars_patch.zip');
+output = path.join(localDir, '/data/launcher/output.txt');
 winShortcut = path.join(localDir, 'Base Wars.lnk');
-winIcon = path.join(localDir, '/data/src/launcher/resources/app/src/render/Icon.ico')
+winIcon = path.join(localDir, '/data/launcher/resources/app/src/render/Icon.ico')
 
-deleteFiles = [path.join(localDir, '/data/maps'), path.join(localDir, '/data/saves'),
-path.join(localDir, '/data/replays'), path.join(localDir, '/data/textures'),
-path.join(localDir, '/data/settings'), version, baseWars];
+deleteFiles = [path.join(localDir, '/data/local'), path.join(localDir, '/data/base'), path.join(localDir, '/data/src')];
+deleteOnUpdate = [path.join(localDir, '/data/local/debug')];
 
 
 let localVerCache = null;
@@ -105,31 +104,17 @@ function extract() {
     let zipFile = new admZip(downloadPatch);
     zipFile.extractAllTo(localDir, true);
     fs.unlinkSync(downloadPatch);
+    deleteOnUpdate.forEach(function (file) {
+        rimraf.sync(file);
+    });
 }
 
 function launchGame() {
-    // let cmd = '"' + java + '" -jar -Xmx2G -Xms1G "' + baseWars + '" > "' + output + '" 2>&1';
-    // exec(cmd, { cwd: localDir })
     let args = ['-jar', '-Xmx2G', '-Xms1G', baseWars, '> "' + output + '"', '2>&1'];
     let sp = spawn(java, args, { cwd: localDir, detached: true });
-    // sp.stdout.on('data', (data) => {
-    //     console.log(`Out: ${data}`);
-    // });
-
-    // sp.stderr.on('data', (data) => {
-    //     console.error(`Err: ${data}`);
-    // });
-
-    // sp.on('close', (code) => {
-    //     console.log(`Base Wars exited with code ${code}`);
-    // });
+    
     if (ipcRenderer)
         ipcRenderer.send('game-launch');
-
-    // console.log("Executing:");
-    // console.log(cmd);
-    // console.log(exec(cmd, { cwd: localDir }));
-
 }
 
 module.exports = {

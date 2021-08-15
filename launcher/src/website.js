@@ -8,6 +8,7 @@ const fetch = require('node-fetch');
 
 
 const downloadURL = 'https://everlastinggames.net/base-wars/download/raw';
+const patchURL = 'https://everlastinggames.net/base-wars/patchNotes/raw';
 
 
 var data = null;
@@ -26,7 +27,6 @@ async function updateVer() {
     return await fetch(versionURL + (devBranch() ? '?branch=beta' : ''))
         .then(res => res.text())
         .then(ver => data.ver = ver);
-    //TODO
 }
 
 
@@ -36,13 +36,6 @@ function onlineVer() {
         return data.ver;
     else return '';
 }
-function patchHTML() {
-    loadData();
-    if ('patchNotes' in data)
-        return data.patchNotes;
-    else return "Patch Notes not found. Please check your internet connection.";
-}
-
 
 function connected() {
     loadData();
@@ -106,5 +99,5 @@ function endDownload() {
 
 
 module.exports = {
-    connected, patchHTML, onlineVer, updateVer, downloadAndLaunch, resetAndLaunch, setData
+    connected, patchURL, onlineVer, updateVer, downloadAndLaunch, resetAndLaunch, setData
 }

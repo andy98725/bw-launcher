@@ -2,8 +2,7 @@ const $ = require('jquery');
 
 const { needsReset, needsDownload, needsUpdate } = require('../gameState.js');
 const { hasGame, localVer, launchGame, updateAutostart, updateDevBranch, hasAutostart, devBranch } = require('../files.js');
-const { patchHTML, updateVer, onlineVer, downloadAndLaunch, resetAndLaunch, connected } = require('../website.js');
-
+const { patchURL, updateVer, onlineVer, downloadAndLaunch, resetAndLaunch, connected } = require('../website.js');
 
 
 $(function () {
@@ -71,7 +70,7 @@ function clickSettings() {
 }
 
 function clickPatch() {
-	$(".main").html(patchHTML());
+	$(".main").load(patchURL);
 
 	$("#play-btn").removeClass("active");
 	$("#set-btn").removeClass("active");

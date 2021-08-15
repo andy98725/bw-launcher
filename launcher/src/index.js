@@ -27,9 +27,9 @@ function createWindow(data) {
       contextIsolation: false
     }
   });
-  mainWindow.removeMenu();
 
-  // and load the index.html of the app.
+
+  mainWindow.removeMenu();
   mainWindow.loadFile(path.join(__dirname, './render/index.html'), { query: { "data": JSON.stringify(data) } });
 
 
