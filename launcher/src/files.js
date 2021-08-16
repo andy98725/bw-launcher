@@ -91,6 +91,7 @@ function updateShortcutIcon() {
 
     let shortcut = shell.readShortcutLink(winShortcut);
     shortcut.icon = winIcon;
+    shortcut.iconIndex = 0;
     shell.writeShortcutLink(winShortcut, shortcut);
 }
 
