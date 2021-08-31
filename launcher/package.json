@@ -9,8 +9,7 @@
     "make": "npm run make-linux && npm run make-mac && npm run make-win",
     "make-linux": "electron-forge package --platform=linux",
     "make-mac": "electron-forge package --platform=darwin",
-    "make-win": "electron-forge package --platform=win32",
-    "publish": "electron-forge publish"
+    "make-win": "electron-forge package --platform=win32"
   },
   "keywords": [],
   "author": "andy725",
@@ -19,7 +18,7 @@
     "forge": {
       "packagerConfig": {
         "executableName": "base-wars-launcher",
-        "icon": "./src/render/Icon.icns"
+        "icon": "./src/render/Icon"
       }
     }
   },
