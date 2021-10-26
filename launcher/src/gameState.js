@@ -12,7 +12,7 @@ function needsDownload() {
 	return !hasGame();
 }
 function needsUpdate() {
-	return hasGame() && localVer() < onlineVer();
+	return hasGame() && localVer() != onlineVer();
 }
 
 function autostart() {
