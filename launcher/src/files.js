@@ -111,7 +111,7 @@ function extract() {
 }
 
 function launchGame() {
-    let args = ['-jar', '-Xmx2G', '-Xms1G', baseWars, '> "' + output + '"', '2>&1'];
+    let args = ['-jar', '-Xmx2G', '-Xms1G', baseWars, 'production', '> "' + output + '"', '2>&1'];
     let sp = spawn(java, args, { cwd: localDir, detached: true });
     
     if (ipcRenderer)
