@@ -1,4 +1,4 @@
-
+*.swp
 # Custom build script
 builds/
 zips/
